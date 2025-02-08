@@ -5,11 +5,15 @@ class Play extends Phaser.Scene {
 
     create() {
         // add background image
-        this.map = this.add.tileSprite(0, 0, this.scale.width, this.scale.heigth, 'bg').setOrigin(0, 0)
-        this.player = this.add.image(0, 0, 'player').setOrigin(0)
+        this.map = this.add.tileSprite(0, 0, this.scale.width, this.scale.height, 'bg').setOrigin(0, 0)
+        this.player = new Horse(this, 100, 364, 'player')
+
+    
     }
 
     update() {
-        this.map.tilePositionY -= 1
+        this.map.tilePositionY -= bgSpeed
+
+        this.player.update()
     }
 }
