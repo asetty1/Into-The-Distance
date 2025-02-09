@@ -6,6 +6,7 @@ class Load extends Phaser.Scene {
     preload() {
         this.load.image('bg', './assets/EndlessBg.png')
         this.load.image('bigTree', './assets/treeBig.png')
+        this.load.image('smallTree', './assets/treeSmall.png')
 
         this.load.spritesheet('player', './assets/spritesheet.png', {
             frameWidth: 98,

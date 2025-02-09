@@ -9,6 +9,9 @@ class Horse extends Phaser.Physics.Arcade.Sprite {
 
         this.body.setCollideWorldBounds(true)
 
+        this.body.checkCollision.right = false
+        this.body.checkCollision.left = false
+
         // Set custom Horse properties
         this.horseVelocity = 70
         this.bottomBoundary = scene.scale.height

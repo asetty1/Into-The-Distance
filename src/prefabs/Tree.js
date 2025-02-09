@@ -8,6 +8,8 @@ class Tree extends Phaser.Physics.Arcade.Sprite {
         this.body.setSize(this.width/4.5, this.height/1.7)
         this.body.setOffset(this.width / 2.5, this.height / 4)
 
+        this.body.setImmovable(true)
+
         this.points = pointValue
         this.movespeed = bgSpeed
     }
@@ -16,6 +18,8 @@ class Tree extends Phaser.Physics.Arcade.Sprite {
         this.y += this.movespeed
 
         if (this.y > this.scene.scale.height + this.y/2) {
+            this.setActive(false)
+            this.setVisible(false)
             this.resetPosition()
         }
     }
