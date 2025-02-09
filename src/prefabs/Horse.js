@@ -4,18 +4,22 @@ class Horse extends Phaser.Physics.Arcade.Sprite {
         scene.add.existing(this)           // Add Horse to the existing scene
         scene.physics.add.existing(this)   // Add physics body to the scene
 
-        this.body.setSize(this.width / 2, this.height / 2)
+        this.body.setSize(this.width / 2, this.height / 1.5)
+        this.body.setOffset(this.width / 4, this.height / 4 - 40)
+
         this.body.setCollideWorldBounds(true)
 
         // Set custom Horse properties
-        this.horseVelocity = 100
-
+        this.horseVelocity = 70
         this.bottomBoundary = scene.scale.height
         
-        this.setScale(0.5)
+        this.setScale(0.3)
 
         // Create controls
         this.cursors = scene.input.keyboard.createCursorKeys()
+
+        this.anims.play('idle')
+
     }
 
     update() {
@@ -36,7 +40,7 @@ class Horse extends Phaser.Physics.Arcade.Sprite {
             this.setVelocityY(-this.horseVelocity)
         } else {
             if (this.y < this.bottomBoundary) {
-                this.setVelocityY(this.horseVelocity)
+                this.setVelocityY(this.horseVelocity *1.5)
             } else {
                 this.setVelocityY(0)
             }
