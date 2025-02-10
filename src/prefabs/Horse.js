@@ -9,11 +9,11 @@ class Horse extends Phaser.Physics.Arcade.Sprite {
 
         this.body.setCollideWorldBounds(true)
 
-        this.body.checkCollision.right = false
-        this.body.checkCollision.left = false
+        //this.body.checkCollision.right = false
+        //this.body.checkCollision.left = false
 
         // Set custom Horse properties
-        this.horseVelocity = 70
+        this.horseVelocity = horseVelo
         this.bottomBoundary = scene.scale.height
         
         this.setScale(0.3)
@@ -23,30 +23,38 @@ class Horse extends Phaser.Physics.Arcade.Sprite {
 
         this.anims.play('idle')
 
+
     }
 
     update() {
 
         this.setVelocity(0, 0)
 
-        // Left and right movement
-        if (this.cursors.left.isDown) {
-            this.setVelocityX(-this.horseVelocity)
-        } else if (this.cursors.right.isDown) {
-            this.setVelocityX(this.horseVelocity)
-        } else {
-            this.setVelocityX(0)
-        }
-
-        // Vertical movement
-        if (this.cursors.up.isDown) {
-            this.setVelocityY(-this.horseVelocity)
-        } else {
-            if (this.y < this.bottomBoundary) {
-                this.setVelocityY(this.horseVelocity *1.5)
+        if (canControl) {
+            // Left and right movement
+            if (this.cursors.left.isDown) {
+                this.setVelocityX(-this.horseVelocity*3)
+            } else if (this.cursors.right.isDown) {
+                this.setVelocityX(this.horseVelocity*3)
             } else {
-                this.setVelocityY(0)
+                this.setVelocityX(0)
+            }
+
+            // Vertical movement
+            if (this.cursors.up.isDown) {
+                this.setVelocityY(-this.horseVelocity)
+            } else {
+                if (this.y < this.bottomBoundary) {
+                    this.setVelocityY(this.horseVelocity *1.5)
+                } else {
+                    this.setVelocityY(0)
+                }
             }
         }
+    }
+
+    handleCollision () {
+        this.collided = true
+        this.setVelocity(0, 0)
     }
 }

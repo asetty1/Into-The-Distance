@@ -11,16 +11,19 @@ class Tree extends Phaser.Physics.Arcade.Sprite {
         this.body.setImmovable(true)
 
         this.points = pointValue
-        this.movespeed = bgSpeed
+        this.movespeed = treeSpeed
     }
 
     update() {
-        this.y += this.movespeed
+        if (canControl) {
+            this.movespeed = treeSpeed
+            this.y += this.movespeed
 
-        if (this.y > this.scene.scale.height + this.y/2) {
-            this.setActive(false)
-            this.setVisible(false)
-            this.resetPosition()
+            if (this.y > this.scene.scale.height + this.y/2) {
+                this.setActive(false)
+                this.setVisible(false)
+                this.resetPosition()
+            }
         }
     }
 
@@ -28,5 +31,7 @@ class Tree extends Phaser.Physics.Arcade.Sprite {
         this.y = -this.y/2
         this.x = Phaser.Math.Between(0, this.scene.scale.width)
     }
+
+    
       
 }

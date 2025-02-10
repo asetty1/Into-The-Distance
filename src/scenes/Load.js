@@ -12,6 +12,10 @@ class Load extends Phaser.Scene {
             frameWidth: 98,
             frameHeight: 354
         })
+        this.load.spritesheet('hitTree', './assets/spritesheet2.png', {
+            frameWidth: 98,
+            frameHeight: 354
+        })
     }    
 
     create() {
@@ -21,6 +25,13 @@ class Load extends Phaser.Scene {
             frameRate: 5,
             repeat: -1,
             frames: this.anims.generateFrameNumbers('player', { start: 0, end: 5})
+        })
+
+        this.anims.create({
+            key: 'hitTree',
+            frameRate: 9,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('hitTree', { start: 0, end: 15})
         })
 
         this.scene.start('playScene')

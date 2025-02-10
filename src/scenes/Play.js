@@ -1,6 +1,11 @@
 class Play extends Phaser.Scene {
     constructor() {
         super("playScene")
+
+        this.spawnDelayMin = 500
+        this.spawnDelayMax = 1000
+        this.bgspeedIncrement = 0.01
+        this.treeSpeedIncrement = 0.01
     }
 
     create() {
@@ -13,32 +18,55 @@ class Play extends Phaser.Scene {
         })
 
         let depth = 1000
-        for (let i = 0; i < 2; i++) {
-            let x = Phaser.Math.Between(0, this.scale.width)
-            let y = Phaser.Math.Between(-100, 0)
-            let tree = new Tree(this, x, y, 'bigTree', 0, 10)
-            tree.setDepth(depth)
-            this.trees.add(tree)
-            depth--
-        } 
+        // for (let i = 0; i < 2; i++) {
+        //     let x = Phaser.Math.Between(0, this.scale.width)
+        //     let y = Phaser.Math.Between(-100, 0)
+        //     let tree = new Tree(this, x, y, 'bigTree', 0, 10)
+        //     tree.setDepth(depth)
+        //     this.trees.add(tree)
+        //     depth--
+        // } 
         
-        for (let i = 0; i < 4; i++) {
-            let x = Phaser.Math.Between(0, this.scale.width)
-            let y = Phaser.Math.Between(-100, 0)
-            let tree = new Tree(this, x, y, 'smallTree', 0, 10)
-            tree.setDepth(depth)
-            this.trees.add(tree)
-            depth--
-        } 
+        // for (let i = 0; i < 4; i++) {
+        //     let x = Phaser.Math.Between(0, this.scale.width)
+        //     let y = Phaser.Math.Between(-100, 0)
+        //     let tree = new Tree(this, x, y, 'smallTree', 0, 10)
+        //     tree.setDepth(depth)
+        //     this.trees.add(tree)
+        //     depth--
+        // } 
 
-        this.time.addEvent({
-            delay: Phaser.Math.Between(0, 1000),
+        // Add timed event to spawn new trees at random intervals by recycling existing ones
+        this.spawnTreeEvent = this.time.addEvent({
+            delay: Phaser.Math.Between(this.spawnDelayMin, this.spawnDelayMax),
             callback: this.spawnTree,
             callbackScope: this,
             loop: true
         })
 
-        this.physics.add.collider(this.player, this.trees, this.handleCollision, null, this)
+        // Add timed event to adjust spawn delay over time
+        this.time.addEvent({
+            delay: 1000, // Adjust the delay every second
+            callback: this.adjustSpawnDelay,
+            callbackScope: this,
+            loop: true
+        })
+
+        this.updateBgspeedEvent = this.time.addEvent({
+            delay: 1000, // Update bgspeed every second
+            callback: this.updateBgspeed,
+            callbackScope: this,
+            loop: true
+        })
+
+        this.updateTreeSpeedEvent = this.time.addEvent({
+            delay: 1000, // Update bgspeed every second
+            callback: this.updateBgspeed,
+            callbackScope: this,
+            loop: true
+        })
+
+        this.physics.add.overlap(this.player, this.trees, this.handleCollision, null, this)
     }
 
     update() {
@@ -56,7 +84,44 @@ class Play extends Phaser.Scene {
         this.trees.add(tree)
     }
 
+    adjustSpawnDelay() {
+        if (this.spawnDelayMax > 500) {
+            this.spawnDelayMax -= 100 // Decrease max delay
+        }
+        if (this.spawnDelayMin > 0) {
+            this.spawnDelayMin -= 10 // Decrease min delay
+        }
+
+        // Update the spawnTreeEvent delay
+        this.spawnTreeEvent.reset({
+            delay: Phaser.Math.Between(this.spawnDelayMin, this.spawnDelayMax),
+            callback: this.spawnTree,
+            callbackScope: this,
+            loop: true
+        })
+    }
+
+    updateBgspeed() {
+        // Increase bgspeed every second
+        if (canControl) {
+            bgSpeed += this.bgspeedIncrement
+            treeSpeed += this.bgspeedIncrement
+        }
+    }
+
+
     handleCollision(player, tree) {
         console.log('Collision detected')
+        horseVelo = 0
+        bgSpeed = 0
+        canControl = false
+        
+
+        player.handleCollision()
+
+        player.anims.play('hitTree')
+
+        //add code to implement control after animation plays
+        //canControl = true
     }
 }
