@@ -16,7 +16,7 @@ class Horse extends Phaser.Physics.Arcade.Sprite {
         this.horseVelocity = horseVelo
         this.bottomBoundary = scene.scale.height
         
-        this.setScale(0.3)
+        this.setScale(0.2)
 
         // Create controls
         this.cursors = scene.input.keyboard.createCursorKeys()
@@ -33,9 +33,9 @@ class Horse extends Phaser.Physics.Arcade.Sprite {
         if (canControl) {
             // Left and right movement
             if (this.cursors.left.isDown) {
-                this.setVelocityX(-this.horseVelocity*3)
+                this.setVelocityX(-this.horseVelocity*1.5)
             } else if (this.cursors.right.isDown) {
-                this.setVelocityX(this.horseVelocity*3)
+                this.setVelocityX(this.horseVelocity*1.5)
             } else {
                 this.setVelocityX(0)
             }

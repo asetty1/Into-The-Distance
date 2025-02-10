@@ -22,7 +22,7 @@ class Load extends Phaser.Scene {
 
         this.anims.create({
             key: 'idle',
-            frameRate: 5,
+            frameRate: 10,
             repeat: -1,
             frames: this.anims.generateFrameNumbers('player', { start: 0, end: 5})
         })

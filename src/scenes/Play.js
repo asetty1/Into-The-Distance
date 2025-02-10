@@ -4,8 +4,8 @@ class Play extends Phaser.Scene {
 
         this.spawnDelayMin = 500
         this.spawnDelayMax = 1000
-        this.bgspeedIncrement = 0.01
-        this.treeSpeedIncrement = 0.01
+        this.bgspeedIncrement = 0.02
+        this.treeSpeedIncrement = 0.02
     }
 
     create() {
@@ -85,20 +85,22 @@ class Play extends Phaser.Scene {
     }
 
     adjustSpawnDelay() {
-        if (this.spawnDelayMax > 500) {
-            this.spawnDelayMax -= 100 // Decrease max delay
+        if (canControl) {
+            if (this.spawnDelayMax > 500) {
+                this.spawnDelayMax -= 100 // Decrease max delay
+            }
+            if (this.spawnDelayMin > 200) {
+                this.spawnDelayMin -= 25 // Decrease min delay
+            }
+    
+            // Update the spawnTreeEvent delay
+            this.spawnTreeEvent.reset({
+                delay: Phaser.Math.Between(this.spawnDelayMin, this.spawnDelayMax),
+                callback: this.spawnTree,
+                callbackScope: this,
+                loop: true
+            })
         }
-        if (this.spawnDelayMin > 0) {
-            this.spawnDelayMin -= 10 // Decrease min delay
-        }
-
-        // Update the spawnTreeEvent delay
-        this.spawnTreeEvent.reset({
-            delay: Phaser.Math.Between(this.spawnDelayMin, this.spawnDelayMax),
-            callback: this.spawnTree,
-            callbackScope: this,
-            loop: true
-        })
     }
 
     updateBgspeed() {
@@ -111,17 +113,23 @@ class Play extends Phaser.Scene {
 
 
     handleCollision(player, tree) {
+        if (this.collisionHandled) {
+            return
+        }
+
         console.log('Collision detected')
         horseVelo = 0
         bgSpeed = 0
         canControl = false
-        
 
         player.handleCollision()
 
-        player.anims.play('hitTree')
+        player.anims.play('hitTree').on('animationcomplete', () => {
+            canControl = true
+            this.collisionHandled = false
+        })
 
-        //add code to implement control after animation plays
-        //canControl = true
+        // Set flag to indicate collision has been handled
+        this.collisionHandled = true
     }
 }
