@@ -4,13 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Into The Woods</title>
+    
+    <!-- Load the custom font -->
+    <script>
+        const newFontFace = new FontFace('amegrin', 'url(./assets/amegrin-.woff)');
+        
+        newFontFace.load().then((loadedFont) => {
+            document.fonts.add(loadedFont);
+            console.log('Font loaded successfully!');
+        }).catch((error) => {
+            console.error('Error loading font:', error);
+        });
+    </script>
+
+    <!-- Load Phaser and game scripts -->
     <script src="./lib/phaser.js"></script>
     <script src="./src/prefabs/Horse.js"></script>
     <script src="./src/prefabs/Tree.js"></script>
     <script src="./src/scenes/Load.js"></script>
     <script src="./src/scenes/Play.js"></script>
     <script src="./src/main.js"></script>
+
 </head>
 <body>
     <!-- Phaser will handle the <body> tag for us 💪 -->
 </body>
+</html>

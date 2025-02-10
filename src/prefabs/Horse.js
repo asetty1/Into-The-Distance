@@ -50,6 +50,7 @@ class Horse extends Phaser.Physics.Arcade.Sprite {
                     this.setVelocityY(0)
                 }
             }
+
         }
     }
 

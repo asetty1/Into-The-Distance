@@ -2,10 +2,26 @@ class Play extends Phaser.Scene {
     constructor() {
         super("playScene")
 
-        this.spawnDelayMin = 500
-        this.spawnDelayMax = 1000
-        this.bgspeedIncrement = 0.02
-        this.treeSpeedIncrement = 0.02
+        if (!game.settings) {
+            console.warn("game.settings is undefined. Using default values.");
+            game.settings = {
+                bgSpeed: 1,
+                treeSpeed: 1,
+                horseVelo: 140,
+                spawnDelayMin: 500,
+                spawnDelayMax: 1000,
+                bgspeedIncrement: 0.02,
+                treeSpeedIncrement: 0.02
+            };
+        }
+
+        this.bgSpeed = game.settings.bgSpeed
+        this.treeSpeed = game.settings.treeSpeed
+        this.horseVelo = game.settings.horseVelo
+        this.spawnDelayMin = game.settings.spawnDelayMin
+        this.spawnDelayMax = game.settings.spawnDelayMax
+        this.bgspeedIncrement = game.settings.bgspeedIncrement
+        this.treeSpeedIncrement = game.settings.treeSpeedIncrement
     }
 
     create() {
@@ -18,23 +34,23 @@ class Play extends Phaser.Scene {
         })
 
         let depth = 1000
-        // for (let i = 0; i < 2; i++) {
-        //     let x = Phaser.Math.Between(0, this.scale.width)
-        //     let y = Phaser.Math.Between(-100, 0)
-        //     let tree = new Tree(this, x, y, 'bigTree', 0, 10)
-        //     tree.setDepth(depth)
-        //     this.trees.add(tree)
-        //     depth--
-        // } 
+        for (let i = 0; i < 2; i++) {
+            let x = Phaser.Math.Between(0, this.scale.width)
+            let y = Phaser.Math.Between(-1000, 0)
+            let tree = new Tree(this, x, y, 'bigTree', 0, 10)
+            tree.setDepth(depth)
+            this.trees.add(tree)
+            depth--
+        } 
         
-        // for (let i = 0; i < 4; i++) {
-        //     let x = Phaser.Math.Between(0, this.scale.width)
-        //     let y = Phaser.Math.Between(-100, 0)
-        //     let tree = new Tree(this, x, y, 'smallTree', 0, 10)
-        //     tree.setDepth(depth)
-        //     this.trees.add(tree)
-        //     depth--
-        // } 
+        for (let i = 0; i < 4; i++) {
+            let x = Phaser.Math.Between(0, this.scale.width)
+            let y = Phaser.Math.Between(-1000, 0)
+            let tree = new Tree(this, x, y, 'smallTree', 0, 10)
+            tree.setDepth(depth)
+            this.trees.add(tree)
+            depth--
+        } 
 
         // Add timed event to spawn new trees at random intervals by recycling existing ones
         this.spawnTreeEvent = this.time.addEvent({
@@ -46,21 +62,21 @@ class Play extends Phaser.Scene {
 
         // Add timed event to adjust spawn delay over time
         this.time.addEvent({
-            delay: 1000, // Adjust the delay every second
+            delay: 1000,
             callback: this.adjustSpawnDelay,
             callbackScope: this,
             loop: true
         })
 
         this.updateBgspeedEvent = this.time.addEvent({
-            delay: 1000, // Update bgspeed every second
+            delay: 1000,
             callback: this.updateBgspeed,
             callbackScope: this,
             loop: true
         })
 
         this.updateTreeSpeedEvent = this.time.addEvent({
-            delay: 1000, // Update bgspeed every second
+            delay: 1000,
             callback: this.updateBgspeed,
             callbackScope: this,
             loop: true
@@ -70,9 +86,11 @@ class Play extends Phaser.Scene {
     }
 
     update() {
-        this.map.tilePositionY -= bgSpeed
+        if (canControl) {
+            this.map.tilePositionY -= this.bgSpeed;
+        }
 
-        this.player.update()
+        this.player.update();
     }
 
     spawnTree() {
