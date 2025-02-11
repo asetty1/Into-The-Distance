@@ -1,4 +1,5 @@
 /*
+Ananya Setty - Into The Distance
 
 Hello!! This is a game called Into the Distance where you get to play as 
 a cowboy riding off into the distance with your trusty horse. I admit I am 
