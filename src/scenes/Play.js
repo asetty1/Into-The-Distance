@@ -38,7 +38,7 @@ class Play extends Phaser.Scene {
         } 
 
         this.time.addEvent({
-            delay: 5000, // 60 seconds
+            delay: 60000, // 60 seconds
             callback: this.endGame,
             callbackScope: this
         })
@@ -79,7 +79,7 @@ class Play extends Phaser.Scene {
             fixedWidth: 300
         }).setOrigin(0.5).setVisible(false)
 
-        this.time.delayedCall(4000, () => {
+        this.time.delayedCall(50000, () => {
             this.sound.play('sfx-select')
             this.tenSecondsLeftText.setVisible(true)
             this.time.delayedCall(1000, () => {
