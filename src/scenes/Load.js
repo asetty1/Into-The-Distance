@@ -10,6 +10,10 @@ class Load extends Phaser.Scene {
         this.load.image('smallTree', './assets/treeSmall.png')
 
         this.load.audio('sfx-select', './assets/select.wav')
+        this.load.audio('bgMusic', './assets/bgmusic.mp3')
+        this.load.audio('writing', './assets/writing.wav')
+        this.load.audio('running', './assets/dirt.wav')
+        this.load.audio('scared', './assets/scared.wav')
 
         this.load.spritesheet('player', './assets/spritesheet.png', {
             frameWidth: 98,
@@ -80,6 +84,7 @@ class Load extends Phaser.Scene {
             delay: 50,
             callback: () => {
                 if (charIndex < lines[lineIndex].length) {
+                    this.sound.play('writing', 0, 0.5)
                     displayText += lines[lineIndex][charIndex]
                     textObject.setText(displayText)
                     charIndex++
@@ -97,6 +102,10 @@ class Load extends Phaser.Scene {
             },
             loop: true
         })
+
+        this.bgMusic = this.sound.add('bgMusic', { loop: true})
+        this.bgMusic.play()
+
     }
 
     update() {

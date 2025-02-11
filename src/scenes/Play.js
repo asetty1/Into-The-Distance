@@ -38,7 +38,7 @@ class Play extends Phaser.Scene {
 
         //timer code
         this.timer = this.time.addEvent ({
-            delay: 5000,
+            delay: 60000,
             callback: this.endGame,
             callbackScope: this
         })
@@ -89,6 +89,10 @@ class Play extends Phaser.Scene {
             callbackScope: this,
             loop: true
         })
+
+        this.run = this.sound.add('running', { loop: true })
+        this.run.play()
+
 
         this.physics.add.overlap(this.player, this.trees, this.handleCollision, null, this)
     }
@@ -146,6 +150,7 @@ class Play extends Phaser.Scene {
         }
 
         console.log('Collision detected')
+        this.sound.play('scared')
         let oldbgspeed = bgSpeed
         horseVelo = 0
         bgSpeed = 0
@@ -168,6 +173,10 @@ class Play extends Phaser.Scene {
     }
 
     endGame() {
+        if (this.run) {
+            this.run.stop()
+        }
+
         this.scene.stop('playScene')
         this.scene.start('gameOver')
 
