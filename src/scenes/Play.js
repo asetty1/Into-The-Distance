@@ -6,6 +6,7 @@ class Play extends Phaser.Scene {
         this.spawnDelayMax = 1000
         this.bgspeedIncrement = 0.03
         this.treeSpeedIncrement = 0.03
+        this.score = 0
     }
 
     create() {
@@ -36,15 +37,15 @@ class Play extends Phaser.Scene {
             depth--
         } 
 
-        //timer code
-        this.timer = this.time.addEvent ({
-            delay: 60000,
-            callback: this.endGame,
-            callbackScope: this
+       this.time.addEvent ({
+            delay: 1000,
+            callback: this.addScore,
+            callbackScope: this,
+            loop: true
         })
 
     
-        let timerConfig = {
+        let scoreConfig = {
             fontFamily: 'amegrin',
             fontSize: '28px',
             color: '#843605',
@@ -56,8 +57,8 @@ class Play extends Phaser.Scene {
             fixedWidth: 200
         }
 
-        this.timerText = this.add.text(game.config.width - 220, 0, Math.floor(this.timer.getRemainingSeconds()), timerConfig)
-        this.timerText.setDepth(1000)
+        this.scoreText = this.add.text(game.config.width - 220, 0, `Score: ${this.score}`, scoreConfig)
+        this.scoreText.setDepth(1000)
 
 
         // Add timed event to spawn new trees at random intervals by recycling existing ones
@@ -98,14 +99,21 @@ class Play extends Phaser.Scene {
     }
 
     update() {
-        console.log(bgSpeed)
+        console.log(this.score)
         this.map.tilePositionY -= bgSpeed
 
         this.player.update()
 
-        this.timerText.setText("Time remaining: " + Math.floor(this.timer.getRemainingSeconds()))
+        this.scoreText.setText(`Score: ${this.score}`)
     }
     
+    addScore() {
+        this.score += 1
+    }
+
+    loseScore() {
+        this.score -= 5
+    }
 
     spawnTree() {
         let x = Phaser.Math.Between(0, this.scale.width)
@@ -155,6 +163,7 @@ class Play extends Phaser.Scene {
         horseVelo = 0
         bgSpeed = 0
         canControl = false
+        this.loseScore()
 
         player.handleCollision()
 

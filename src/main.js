@@ -25,3 +25,5 @@ let bgSpeed = 1
 let treeSpeed = 1
 let horseVelo = 140
 let canControl = true
+
+let highScore = 0
