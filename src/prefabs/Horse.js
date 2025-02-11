@@ -16,7 +16,7 @@ class Horse extends Phaser.Physics.Arcade.Sprite {
         this.horseVelocity = horseVelo
         this.bottomBoundary = scene.scale.height
         
-        this.setScale(0.2)
+        this.setScale(0.3)
 
         // Create controls
         this.cursors = scene.input.keyboard.createCursorKeys()
@@ -57,5 +57,8 @@ class Horse extends Phaser.Physics.Arcade.Sprite {
     handleCollision () {
         this.collided = true
         this.setVelocity(0, 0)
+        this.anims.play('hitTree').on('animationcomplete', () => {
+            this.anims.play('idle')
+        })
     }
 }

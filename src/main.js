@@ -21,5 +21,7 @@ const game = new Phaser.Game(config)
 let keyLEFT, keyRIGHT
 
 let borderUIsize = game.config.height / 15
-
+let bgSpeed = 1
+let treeSpeed = 1
+let horseVelo = 140
 let canControl = true

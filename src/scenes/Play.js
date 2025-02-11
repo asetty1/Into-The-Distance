@@ -2,26 +2,10 @@ class Play extends Phaser.Scene {
     constructor() {
         super("playScene")
 
-        if (!game.settings) {
-            console.warn("game.settings is undefined. Using default values.");
-            game.settings = {
-                bgSpeed: 1,
-                treeSpeed: 1,
-                horseVelo: 140,
-                spawnDelayMin: 500,
-                spawnDelayMax: 1000,
-                bgspeedIncrement: 0.02,
-                treeSpeedIncrement: 0.02
-            };
-        }
-
-        this.bgSpeed = game.settings.bgSpeed
-        this.treeSpeed = game.settings.treeSpeed
-        this.horseVelo = game.settings.horseVelo
-        this.spawnDelayMin = game.settings.spawnDelayMin
-        this.spawnDelayMax = game.settings.spawnDelayMax
-        this.bgspeedIncrement = game.settings.bgspeedIncrement
-        this.treeSpeedIncrement = game.settings.treeSpeedIncrement
+        this.spawnDelayMin = 500
+        this.spawnDelayMax = 1000
+        this.bgspeedIncrement = 0.03
+        this.treeSpeedIncrement = 0.03
     }
 
     create() {
@@ -33,7 +17,7 @@ class Play extends Phaser.Scene {
             runChildUpdate: true
         })
 
-        let depth = 1000
+        let depth = 100000
         for (let i = 0; i < 2; i++) {
             let x = Phaser.Math.Between(0, this.scale.width)
             let y = Phaser.Math.Between(-1000, 0)
@@ -86,12 +70,12 @@ class Play extends Phaser.Scene {
     }
 
     update() {
-        if (canControl) {
-            this.map.tilePositionY -= this.bgSpeed;
-        }
+        console.log(bgSpeed)
+        this.map.tilePositionY -= bgSpeed
 
-        this.player.update();
+        this.player.update()
     }
+    
 
     spawnTree() {
         let x = Phaser.Math.Between(0, this.scale.width)
@@ -136,15 +120,21 @@ class Play extends Phaser.Scene {
         }
 
         console.log('Collision detected')
+        let oldbgspeed = bgSpeed
         horseVelo = 0
         bgSpeed = 0
         canControl = false
 
         player.handleCollision()
 
+        tree.destroy()
+
         player.anims.play('hitTree').on('animationcomplete', () => {
             canControl = true
-            this.collisionHandled = false
+            this.collisionHandled = false 
+            player.anims.play('idle')
+            bgSpeed = treeSpeed
+
         })
 
         // Set flag to indicate collision has been handled

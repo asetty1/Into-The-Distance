@@ -36,17 +36,9 @@ class Load extends Phaser.Scene {
         this.anims.create({
             key: 'hitTree',
             frameRate: 9,
-            repeat: -1,
+            repeat: 0,
             frames: this.anims.generateFrameNumbers('hitTree', { start: 0, end: 15})
         })
-
-        
-        // // Load your local font
-        // const newFontFace = new FontFace('amegrin', 'url(./assets/amegrin-.woff)');
-        // newFontFace.load().then((loadedFont) => {
-        //     document.fonts.add(loadedFont);
-        //     console.log('Font loaded successfully!');
-        // })
         
 
         let menuCongif = {
@@ -69,37 +61,14 @@ class Load extends Phaser.Scene {
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
 
-
     }
 
     update() {
         if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
-            //regular mode
-            game.settings = {
-                bgSpeed: 1,
-                treeSpeed: 1,
-                horseVelo: 140,
-                spawnDelayMin: 500,
-                spawnDelayMax: 1000,
-                bgspeedIncrement: 0.02,
-                treeSpeedIncrement: 0.02
-            };
-            //this.sound.play('sfx-select')
-            this.scene.start('playScene')
+            this.scene.start('playScene');
         }
         if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
-            //silly mode
-            game.settings = {
-                bgSpeed: 2,
-                treeSpeed: 2,
-                horseVelo: 180,
-                spawnDelayMin: 300,
-                spawnDelayMax: 700,
-                bgspeedIncrement: 0.05,
-                treeSpeedIncrement: 0.05
-            };
-            //this.sound.play('sfx-select')
-            this.scene.start('playScene')
+            this.scene.start('playScene');
         }
     }
 }

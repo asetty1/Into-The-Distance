@@ -31,7 +31,5 @@ class Tree extends Phaser.Physics.Arcade.Sprite {
         this.y = -this.y/2
         this.x = Phaser.Math.Between(0, this.scene.scale.width)
     }
-
-    
       
 }
