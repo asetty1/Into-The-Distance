@@ -16,7 +16,7 @@ class Horse extends Phaser.Physics.Arcade.Sprite {
         this.horseVelocity = horseVelo
         this.bottomBoundary = scene.scale.height
         
-        this.setScale(0.3)
+        this.setScale(0.22)
 
         // Create controls
         this.cursors = scene.input.keyboard.createCursorKeys()

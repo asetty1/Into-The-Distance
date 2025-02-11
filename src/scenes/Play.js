@@ -4,8 +4,8 @@ class Play extends Phaser.Scene {
 
         this.spawnDelayMin = 500
         this.spawnDelayMax = 1000
-        this.bgspeedIncrement = 0.03
-        this.treeSpeedIncrement = 0.03
+        this.bgspeedIncrement = 0.02
+        this.treeSpeedIncrement = 0.02
         this.score = 0
     }
 
@@ -36,6 +36,12 @@ class Play extends Phaser.Scene {
             this.trees.add(tree)
             depth--
         } 
+
+        this.time.addEvent({
+            delay: 60000, // 60 seconds
+            callback: this.endGame,
+            callbackScope: this
+        })
 
        this.time.addEvent ({
             delay: 1000,
@@ -164,6 +170,7 @@ class Play extends Phaser.Scene {
         bgSpeed = 0
         canControl = false
         this.loseScore()
+        this.run.stop()
 
         player.handleCollision()
 
@@ -174,6 +181,7 @@ class Play extends Phaser.Scene {
             this.collisionHandled = false 
             player.anims.play('idle')
             bgSpeed = treeSpeed
+            this.run.play()
 
         })
 
@@ -185,6 +193,12 @@ class Play extends Phaser.Scene {
         if (this.run) {
             this.run.stop()
         }
+        
+        gameScores.currentScore = this.score
+        if (this.score > gameScores.highScore) {
+            gameScores.highScore = this.score
+        }
+
 
         this.scene.stop('playScene')
         this.scene.start('gameOver')
