@@ -44,7 +44,7 @@ class Load extends Phaser.Scene {
             key: 'hitTree',
             frameRate: 9,
             repeat: 1,
-            frames: this.anims.generateFrameNumbers('hitTree', { start: 0, end: 15})
+            frames: this.anims.generateFrameNumbers('hitTree', { start: 0, end: 6})
         })
         
 
@@ -64,7 +64,8 @@ class Load extends Phaser.Scene {
             'Into The Distance',
             'Use the arrow keys to move!',
             'Make sure to avoid the trees to keep riding.',
-            'Press an arrow key to start!'
+            'Press an arrow key to start!',
+            'You have 60 seconds!'
         ]
 
         // Call typewriteText for each line

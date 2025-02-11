@@ -38,7 +38,7 @@ class Play extends Phaser.Scene {
         } 
 
         this.time.addEvent({
-            delay: 60000, // 60 seconds
+            delay: 5000, // 60 seconds
             callback: this.endGame,
             callbackScope: this
         })
@@ -66,6 +66,26 @@ class Play extends Phaser.Scene {
         this.scoreText = this.add.text(game.config.width - 220, 0, `Score: ${this.score}`, scoreConfig)
         this.scoreText.setDepth(1000)
 
+
+        this.tenSecondsLeftText = this.add.text(game.config.width / 2, game.config.height / 2, '10 Seconds Left!', {
+            fontFamily: 'amegrin',
+            fontSize: '28px',
+            color: '#843605',
+            align: 'center',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            fixedWidth: 300
+        }).setOrigin(0.5).setVisible(false)
+
+        this.time.delayedCall(4000, () => {
+            this.sound.play('sfx-select')
+            this.tenSecondsLeftText.setVisible(true)
+            this.time.delayedCall(1000, () => {
+                this.tenSecondsLeftText.setVisible(false)
+            }, [], this)
+        }, [], this)
 
         // Add timed event to spawn new trees at random intervals by recycling existing ones
         this.spawnTreeEvent = this.time.addEvent({
@@ -193,11 +213,14 @@ class Play extends Phaser.Scene {
         if (this.run) {
             this.run.stop()
         }
-        
+
         gameScores.currentScore = this.score
         if (this.score > gameScores.highScore) {
             gameScores.highScore = this.score
         }
+
+        console.log('Current score: ', gameScores.currentScore)
+        console.log('highscore: ', gameScores.highScore)
 
 
         this.scene.stop('playScene')
