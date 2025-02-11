@@ -13,7 +13,7 @@ const config = {
             debug: false
         }
     },
-    scene: [ Load, Play ]
+    scene: [ Load, Play, Game ]
 }
 
 const game = new Phaser.Game(config)

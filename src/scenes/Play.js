@@ -36,6 +36,30 @@ class Play extends Phaser.Scene {
             depth--
         } 
 
+        //timer code
+        this.timer = this.time.addEvent ({
+            delay: 5000,
+            callback: this.endGame,
+            callbackScope: this
+        })
+
+    
+        let timerConfig = {
+            fontFamily: 'amegrin',
+            fontSize: '28px',
+            color: '#843605',
+            align: 'right',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            fixedWidth: 200
+        }
+
+        this.timerText = this.add.text(game.config.width - 220, 0, Math.floor(this.timer.getRemainingSeconds()), timerConfig)
+        this.timerText.setDepth(1000)
+
+
         // Add timed event to spawn new trees at random intervals by recycling existing ones
         this.spawnTreeEvent = this.time.addEvent({
             delay: Phaser.Math.Between(this.spawnDelayMin, this.spawnDelayMax),
@@ -74,6 +98,8 @@ class Play extends Phaser.Scene {
         this.map.tilePositionY -= bgSpeed
 
         this.player.update()
+
+        this.timerText.setText("Time remaining: " + Math.floor(this.timer.getRemainingSeconds()))
     }
     
 
@@ -139,5 +165,11 @@ class Play extends Phaser.Scene {
 
         // Set flag to indicate collision has been handled
         this.collisionHandled = true
+    }
+
+    endGame() {
+        this.scene.stop('playScene')
+        this.scene.start('gameOver')
+
     }
 }
