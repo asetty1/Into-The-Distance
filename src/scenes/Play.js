@@ -122,6 +122,11 @@ class Play extends Phaser.Scene {
 
 
         this.physics.add.overlap(this.player, this.trees, this.handleCollision, null, this)
+
+        canControl = true
+        this.collisionHandled = false
+        bgSpeed = 1
+        treeSpeed = 1
     }
 
     update() {
